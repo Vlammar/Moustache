@@ -1,0 +1,12 @@
+name: Moustache
+version: 1.0
+main: fr.zcraft.moustache.Moustache
+
+description: Moustaches !
+authors:
+  - Vlammar
+  - Amaury Carrade
+
+commands:
+    moustache:
+        description: Gestion des moustaches
