@@ -2,6 +2,10 @@ name: Moustache
 version: 1.0
 main: fr.zcraft.moustache.Moustache
 
+api-version: 1.14
+depend: 
+  - SkinsRestorer
+
 description: Moustaches !
 authors:
   - Vlammar
