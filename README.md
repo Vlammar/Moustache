@@ -3,7 +3,8 @@
  
 Opération moustache 1er avril Zcraft.
 
-- [ ] Récupérer UUID de la modératrice à moustache
+- [x] Récupérer UUID de la modératrice à moustache  
+5e9298d9-5a53-4744-88f2-70f221ff8e66
 - [ ] Modifier son skin
 - [ ] Appliquer le skin modifié avec skinsrestorer
 
