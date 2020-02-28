@@ -10,4 +10,6 @@ Opération moustache 1er avril Zcraft.
 
 - [ ] Récupérer les skins de tous les joueurs sauf de bamb
 - [ ] Appliquer la mousatche sur le skin
+- [ ] Créer .skin valide <Nom joueur>_moustache.skin TODO: penser à un système permettant de cumuler des modifications (1 par partie)
+- [ ] Remplacer le skin du joueur par le nouveau
 
