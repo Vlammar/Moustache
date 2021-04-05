@@ -1,28 +1,60 @@
 package fr.zcraft.moustache;
 
-import fr.zcraft.zlib.core.ZPlugin;
-import fr.zcraft.zlib.components.commands.Commands;
+import fr.zcraft.quartzlib.core.QuartzPlugin;
+import fr.zcraft.quartzlib.components.commands.Commands;
 import fr.zcraft.moustache.listeners.PlayersListener;
 import fr.zcraft.moustache.commands.moustache.MoustacheToggleCommand;
+import fr.zcraft.quartzlib.tools.PluginLogger;
+import net.skinsrestorer.bukkit.SkinsGUI;
+import net.skinsrestorer.bukkit.SkinsRestorer;
+import net.skinsrestorer.bukkit.skinfactory.SkinFactory;
+import net.skinsrestorer.shared.storage.SkinStorage;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
-
-public final class Moustache extends ZPlugin
+import net.skinsrestorer.api.bukkit.BukkitHeadAPI;
+import net.skinsrestorer.shared.exception.SkinRequestException;
+import net.skinsrestorer.api.SkinsRestorerAPI;
+import net.skinsrestorer.api.PlayerWrapper;
+import net.skinsrestorer.bukkit.skinfactory.UniversalSkinFactory;
+public final class Moustache extends QuartzPlugin
 {
-    private static Moustache instance;
+
+
+    private static SkinsRestorerAPI skinsRestorerAPI;
+    /* @Override
+        public void onEnable()
+        {
+
+            instance = this;
+
+            //loadComponents(Commands.class, PlayersListener.class);
+
+            Commands.register("moustache", MoustacheToggleCommand.class);
+
+
+
+
+        }*/
+
+
 
     @Override
-    public void onEnable()
-    {
-        instance = this;
+    public void onEnable() {
 
-        loadComponents(Commands.class, PlayersListener.class);
-        
-        Commands.register("moustache", MoustacheToggleCommand.class);
 
+        // Connecting to Bukkit API for applying the skin
+        skinsRestorerAPI = SkinsRestorerAPI.getApi();
+
+        //Commands.register("moustache", MoustacheToggleCommand.class);
+        getServer().getPluginManager().registerEvents(new PlayersListener(), this);
     }
 
-    public static Moustache get()
+
+    public static SkinsRestorerAPI getSkinrestorerAPI()
     {
-        return instance;
+        return skinsRestorerAPI;
     }
 }

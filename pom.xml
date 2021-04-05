@@ -26,13 +26,13 @@
                     <minimizeJar>true</minimizeJar>
                     <artifactSet>
                         <includes>
-                            <include>fr.zcraft:zlib</include>
+                            <include>fr.zcraft:quartzlib</include>
                         </includes>
                     </artifactSet>
                     <relocations>
                         <relocation>
-                            <pattern>fr.zcraft.zlib</pattern>
-                            <shadedPattern>fr.zcraft.moustache.zlib</shadedPattern>
+                            <pattern>fr.zcraft.quartzlib</pattern>
+                            <shadedPattern>fr.zcraft.moustache.quartzlib</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -53,13 +53,18 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
+        <!-- quartzLib -->
         <repository>
-            <id>zDevelopers</id>
-            <url>http://maven.carrade.eu/artifactory/snapshots</url>
+            <id>zdevelopers-quartzlib</id>
+            <url>https://maven.zcraft.fr/QuartzLib</url>
         </repository>
         <repository>
             <id>codemc-snapshots</id>
             <url>https://repo.codemc.org/repository/maven-snapshots/</url>
+        </repository>
+        <repository>
+            <id>mvn-central</id>
+            <url>https://repo1.maven.org/maven2/</url>
         </repository>
     </repositories>
 
@@ -70,18 +75,18 @@
             <version>1.15-R0.1-SNAPSHOT</version>
         </dependency>
 
-        <!-- zLib -->
+        <!-- quartzLib -->
         <dependency>
             <groupId>fr.zcraft</groupId>
-            <artifactId>zlib</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>quartzlib</artifactId>
+            <version>0.0.2</version>
         </dependency>
 
         <!-- SkinsRestorer API -->
         <dependency>
-            <groupId>com</groupId>
+            <groupId>net.skinsrestorer</groupId>
             <artifactId>skinsrestorer</artifactId>
-            <version>13.7.5-SNAPSHOT</version>
+            <version>14.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
