@@ -1,5 +1,5 @@
 name: Moustache
-version: 1.0
+version: 1.0.1
 main: fr.zcraft.moustache.Moustache
 
 api-version: 1.14
