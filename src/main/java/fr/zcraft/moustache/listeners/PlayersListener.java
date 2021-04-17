@@ -83,7 +83,11 @@ public final class PlayersListener extends QuartzComponent implements Listener {
             return;
         }
 
+
         Player player = event.getPlayer();
+        if(!player.getLocation().getWorld().getName().equals("V5")){
+            return;
+        }
         UUID playerClickedOn = event.getRightClicked().getUniqueId();
         ItemStack itemInHand = event.getPlayer().getItemInHand();
         Location loc = player.getLocation();
@@ -125,29 +129,30 @@ public final class PlayersListener extends QuartzComponent implements Listener {
                 break;
             case "da04cd54-c6c7-4672-97c5-85663f5bccf6":
 
-                if (Math.random() > 0.75) {
-                    loc.getWorld().dropItem(loc,
-                            new ItemStackBuilder(Material.LEATHER_HELMET, 1)
-                                    .title(ChatColor.DARK_GRAY, "Casque spatial")
-                                    .craftItem());
-                    player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 5, 1));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 5, 255));
+                if (Math.random() < 0.1) {
+                    if (Math.random() > 0.75) {
+                        loc.getWorld().dropItem(loc,
+                                new ItemStackBuilder(Material.LEATHER_HELMET, 1)
+                                        .title(ChatColor.DARK_GRAY, "Casque spatial")
+                                        .craftItem());
+                        player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 5, 1));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 5, 255));
 
-                    player.playSound(player.getLocation().add(0, 100, 0), Sound.ENTITY_LIGHTNING_BOLT_THUNDER,
-                            SoundCategory.PLAYERS, 1, 1);
+                        player.playSound(player.getLocation().add(0, 100, 0), Sound.ENTITY_LIGHTNING_BOLT_THUNDER,
+                                SoundCategory.PLAYERS, 1, 1);
 
-                    player.teleport(loc.add(0, 100, 0));
+                        player.teleport(loc.add(0, 100, 0));
 
-                    player.sendMessage("Ce vol vous est proposé par ASP (Amaury Space Program)");
-                }
-                else{
-                    loc.getWorld().dropItem(loc,
-                            new ItemStackBuilder(Material.PUMPKIN_PIE, 1)
-                                    .title(ChatColor.GOLD, "3,14159265...")
-                                    .craftItem());
-                    player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
-                    player.sendMessage("Ce non-vol vous est proposé par Amaury Space Program");
+                        player.sendMessage("Ce vol vous est proposé par Amaury Space Program");
+                    } else {
+                        loc.getWorld().dropItem(loc,
+                                new ItemStackBuilder(Material.PUMPKIN_PIE, 1)
+                                        .title(ChatColor.GOLD, "3,14159265...")
+                                        .craftItem());
+                        player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
+                        player.sendMessage("Ce non-vol vous est proposé par Amaury Space Program");
+                    }
                 }
                 break;
             case "f961a66d-8903-481b-8edd-e1bcc0955147"://Labrik0  champignon  + message "Ready for adventure!"
@@ -257,7 +262,7 @@ public final class PlayersListener extends QuartzComponent implements Listener {
                         Moustache.getSkinrestorerAPI().setSkin(Bukkit.getPlayer(playerClickedOn).getName(),
                                 "easter5e9298d95a53474488f270f221ff8e66");
                     } catch (SkinRequestException e) {
-                        PluginLogger.warning("Can't setskin " + e);
+                        PluginLogger.warning("Can't set skin " + e);
                     }
                     Moustache.getSkinrestorerAPI().applySkin(new PlayerWrapper(Bukkit.getPlayer(playerClickedOn)));
 
