@@ -24,6 +24,10 @@ public final class Moustache extends QuartzPlugin
 
 
     private static SkinsRestorerAPI skinsRestorerAPI;
+
+    public static Plugin getPlugin() {
+        return getPlugin();
+    }
     /* @Override
         public void onEnable()
         {

@@ -4,9 +4,12 @@ import fr.zcraft.moustache.Moustache;
 import fr.zcraft.quartzlib.core.QuartzComponent;
 import fr.zcraft.quartzlib.tools.PluginLogger;
 import fr.zcraft.quartzlib.tools.items.ItemStackBuilder;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 import net.skinsrestorer.api.PlayerWrapper;
 import net.skinsrestorer.shared.exception.SkinRequestException;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,29 +29,48 @@ import org.bukkit.potion.PotionEffectType;
 
 public final class PlayersListener extends QuartzComponent implements Listener {
 
+    private boolean isAprilFools() {
+        Date now = new Date();
+        Calendar instance1 = Calendar.getInstance();
+        instance1.set(now.getYear(), 3, 1);
+        Date firstApril = instance1.getTime();
+        Calendar instance2 = Calendar.getInstance();
+        instance2.set(now.getYear(), 3, 4);
+
+        Date fourthApril = instance2.getTime();
+        PluginLogger.info("first> " + now.after(firstApril));
+        PluginLogger.info("4th< " + now.before(fourthApril));
+        return now.after(firstApril) && now.before(fourthApril);
+
+
+    }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        UUID uuid = event.getPlayer().getUniqueId();
+
+        if (isAprilFools()) {
+            PluginLogger.info("It's april fools!");
+            UUID uuid = event.getPlayer().getUniqueId();
 
 
-        Player player = event.getPlayer();
-        String skin = "easter"+uuid.toString().replace("-","");
+            Player player = event.getPlayer();
+            String skin = "easter" + uuid.toString().replace("-", "");
 
 
-        try {
-            // setskin for player skin
-            Moustache.getSkinrestorerAPI().setSkin(player.getName(), skin);
-
-
-        } catch (SkinRequestException e) {
             try {
-                Moustache.getSkinrestorerAPI().setSkin(player.getName(), "default");
-            } catch (SkinRequestException ex) {
-                PluginLogger.warning("Can't setskin " + ex);
+                // setskin for player skin
+                Moustache.getSkinrestorerAPI().setSkin(player.getName(), skin);
+
+
+            } catch (SkinRequestException e) {
+                try {
+                    Moustache.getSkinrestorerAPI().setSkin(player.getName(), "default");
+                } catch (SkinRequestException ex) {
+                    PluginLogger.warning("Can't setskin " + ex);
+                }
             }
+            Moustache.getSkinrestorerAPI().applySkin(new PlayerWrapper(player));
         }
-        Moustache.getSkinrestorerAPI().applySkin(new PlayerWrapper(player));
     }
 
     @EventHandler
@@ -102,18 +124,31 @@ public final class PlayersListener extends QuartzComponent implements Listener {
 
                 break;
             case "da04cd54-c6c7-4672-97c5-85663f5bccf6":
-                loc.getWorld().dropItem(loc,
-                        new ItemStackBuilder(Material.LEATHER_HELMET, 1).title(ChatColor.DARK_GRAY, "Casque spatial")
-                                .craftItem());
-                player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
-                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 5, 1));
 
-                player.playSound(player.getLocation().add(0, 666, 0), Sound.ENTITY_LIGHTNING_BOLT_THUNDER,
-                        SoundCategory.PLAYERS, 1, 1);
+                if (Math.random() > 0.75) {
+                    loc.getWorld().dropItem(loc,
+                            new ItemStackBuilder(Material.LEATHER_HELMET, 1)
+                                    .title(ChatColor.DARK_GRAY, "Casque spatial")
+                                    .craftItem());
+                    player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 5, 1));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 5, 255));
 
-                player.teleport(loc.add(0, 666, 0));
+                    player.playSound(player.getLocation().add(0, 100, 0), Sound.ENTITY_LIGHTNING_BOLT_THUNDER,
+                            SoundCategory.PLAYERS, 1, 1);
 
-                player.sendMessage("Ce vol vous est proposé par ASP (Amaury Space Program)");
+                    player.teleport(loc.add(0, 100, 0));
+
+                    player.sendMessage("Ce vol vous est proposé par ASP (Amaury Space Program)");
+                }
+                else{
+                    loc.getWorld().dropItem(loc,
+                            new ItemStackBuilder(Material.PUMPKIN_PIE, 1)
+                                    .title(ChatColor.GOLD, "3,14159265...")
+                                    .craftItem());
+                    player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
+                    player.sendMessage("Ce non-vol vous est proposé par Amaury Space Program");
+                }
                 break;
             case "f961a66d-8903-481b-8edd-e1bcc0955147"://Labrik0  champignon  + message "Ready for adventure!"
                 loc.getWorld().dropItem(loc,
@@ -152,11 +187,26 @@ public final class PlayersListener extends QuartzComponent implements Listener {
                             "Mi tyrannosaure mi bol de nouille, j'ai été quasi modo et maintenant j'ai faim.");
 
                     try {
-                        Moustache.getSkinrestorerAPI().setSkin(player.getName(), "tyrapropre");
+                        Moustache.getSkinrestorerAPI()
+                                .setSkin(Bukkit.getPlayer(playerClickedOn).getName(), "tyrapropre");
                     } catch (SkinRequestException e) {
                         PluginLogger.warning("Can't setskin " + e);
                     }
-                    Moustache.getSkinrestorerAPI().applySkin(new PlayerWrapper(player));
+                    Moustache.getSkinrestorerAPI().applySkin(new PlayerWrapper(Bukkit.getPlayer(playerClickedOn)));
+
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(Moustache.getPlugin(), new Runnable() {
+                        public void run() {
+                            try {
+                                Moustache.getSkinrestorerAPI().setSkin(Bukkit.getPlayer(playerClickedOn).getName(),
+                                        Bukkit.getPlayer(playerClickedOn).getName());
+
+                                Moustache.getSkinrestorerAPI()
+                                        .applySkin(new PlayerWrapper(Bukkit.getPlayer(playerClickedOn)));
+                            } catch (SkinRequestException e) {
+                                PluginLogger.warning("Can't change back the player skin " + e);
+                            }
+                        }
+                    }, 20L * 60L);
                 }
                 break;
 
@@ -169,14 +219,64 @@ public final class PlayersListener extends QuartzComponent implements Listener {
                                     .craftItem());
                     player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, SoundCategory.PLAYERS, 1, 1);
                     try {
-                        Moustache.getSkinrestorerAPI().setSkin(player.getName(), "magmacold");
+                        Moustache.getSkinrestorerAPI()
+                                .setSkin(Bukkit.getPlayer(playerClickedOn).getName(), "magmacold");
                     } catch (SkinRequestException e) {
                         PluginLogger.warning("Can't setskin " + e);
                     }
-                    Moustache.getSkinrestorerAPI().applySkin(new PlayerWrapper(player));
+                    Moustache.getSkinrestorerAPI().applySkin(new PlayerWrapper(Bukkit.getPlayer(playerClickedOn)));
+
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(Moustache.getPlugin(), new Runnable() {
+                        public void run() {
+                            try {
+                                Moustache.getSkinrestorerAPI().setSkin(Bukkit.getPlayer(playerClickedOn).getName(),
+                                        Bukkit.getPlayer(playerClickedOn).getName());
+
+                                Moustache.getSkinrestorerAPI()
+                                        .applySkin(new PlayerWrapper(Bukkit.getPlayer(playerClickedOn)));
+                            } catch (SkinRequestException e) {
+                                PluginLogger.warning("Can't change back the player skin " + e);
+                            }
+                        }
+                    }, 20L * 60L);
                 }
 
+
                 break;
+
+
+            case "5e9298d9-5a53-4744-88f2-70f221ff8e66": //Moderatrice a moustache
+                if (itemInHand.isSimilar(new ItemStack(Material.SHEARS, 1))) {
+
+
+                    loc.getWorld().dropItem(loc,
+                            new ItemStackBuilder(Material.STRING, 1).title(ChatColor.BLACK, "Moustache de BlackLizard")
+                                    .craftItem());
+                    player.playSound(player.getLocation(), Sound.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1, 1);
+                    try {
+                        Moustache.getSkinrestorerAPI().setSkin(Bukkit.getPlayer(playerClickedOn).getName(),
+                                "easter5e9298d95a53474488f270f221ff8e66");
+                    } catch (SkinRequestException e) {
+                        PluginLogger.warning("Can't setskin " + e);
+                    }
+                    Moustache.getSkinrestorerAPI().applySkin(new PlayerWrapper(Bukkit.getPlayer(playerClickedOn)));
+
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(Moustache.getPlugin(), new Runnable() {
+                        public void run() {
+                            try {
+                                Moustache.getSkinrestorerAPI().setSkin(Bukkit.getPlayer(playerClickedOn).getName(),
+                                        Bukkit.getPlayer(playerClickedOn).getName());
+
+                                Moustache.getSkinrestorerAPI()
+                                        .applySkin(new PlayerWrapper(Bukkit.getPlayer(playerClickedOn)));
+                            } catch (SkinRequestException e) {
+                                PluginLogger.warning("Can't change back the player skin " + e);
+                            }
+                        }
+                    }, 20L * 60L);
+                }
+                break;
+
             default:
                 return;
         }
