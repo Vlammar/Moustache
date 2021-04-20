@@ -85,7 +85,7 @@ public final class PlayersListener extends QuartzComponent implements Listener {
 
 
         Player player = event.getPlayer();
-        if(!player.getLocation().getWorld().getName().equals("V5")){
+        if(!(player.getLocation().getWorld().getName().equals("V5")||player.getLocation().getWorld().getName().equals("V5_nether")||player.getLocation().getWorld().getName().equals("V5_the_end"))){
             return;
         }
         UUID playerClickedOn = event.getRightClicked().getUniqueId();
@@ -178,14 +178,14 @@ public final class PlayersListener extends QuartzComponent implements Listener {
                 player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
                 player.sendMessage("Le libre c'est bon mangez en!");
                 break;
-            case "de79b165-a66c-4faf-bdcf-c120487efe78": //tyranouille sceau de bave
+            case "de79b165-a66c-4faf-bdcf-c120487efe78": //tyranouille seau de bave
 
 
                 if (itemInHand.isSimilar(new ItemStack(Material.BUCKET, 1))) {
                     player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
 
                     loc.getWorld().dropItem(loc,
-                            new ItemStackBuilder(Material.WATER_BUCKET, 1).title(ChatColor.BLUE, "Sceau de bave")
+                            new ItemStackBuilder(Material.WATER_BUCKET, 1).title(ChatColor.BLUE, "Seau de bave")
                                     .craftItem());
                     player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
                     player.sendMessage(
@@ -220,7 +220,7 @@ public final class PlayersListener extends QuartzComponent implements Listener {
                     player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
 
                     loc.getWorld().dropItem(loc,
-                            new ItemStackBuilder(Material.LAVA_BUCKET, 1).title(ChatColor.RED, "Sceau de magma")
+                            new ItemStackBuilder(Material.LAVA_BUCKET, 1).title(ChatColor.RED, "Seau de magma")
                                     .craftItem());
                     player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, SoundCategory.PLAYERS, 1, 1);
                     try {
