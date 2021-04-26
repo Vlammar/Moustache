@@ -178,7 +178,7 @@ public final class PlayersListener extends QuartzComponent implements Listener {
                 player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
                 player.sendMessage("Le libre c'est bon mangez en!");
                 break;
-            case "de79b165-a66c-4faf-bdcf-c120487efe78": //tyranouille seau de bave
+            /*case "de79b165-a66c-4faf-bdcf-c120487efe78": //tyranouille seau de bave
 
 
                 if (itemInHand.isSimilar(new ItemStack(Material.BUCKET, 1))) {
@@ -213,7 +213,20 @@ public final class PlayersListener extends QuartzComponent implements Listener {
                         }
                     }, 20L * 60L);
                 }
-                break;
+                break;*/
+
+            case "00a1669a-d12c-4c2a-afac-c69374dc2036": //DoubleNom
+                if (Math.random() < 0.1) {
+                    if (itemInHand.isSimilar(new ItemStack(Material.BUCKET, 1))) {
+                        player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
+
+                        loc.getWorld().dropItem(loc,
+                                new ItemStackBuilder(Material.MILK_BUCKET, 1)
+                                        .title(ChatColor.LIGHT_PURPLE, "Seau de lait")
+                                        .craftItem());
+                        player.playSound(player.getLocation(), Sound.ENTITY_COW_MILK, SoundCategory.PLAYERS, 1, 1);
+                    }
+                }
 
             case "a9ec7532-3347-4fe7-a711-dd8885f20f64": //Magma
                 if (itemInHand.isSimilar(new ItemStack(Material.BUCKET, 1))) {
